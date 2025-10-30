@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  grafana:
+    image: grafana/grafana-enterprise:latest
+    container_name: grafana-enterprise
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./custom.ini:/etc/grafana/grafana.ini
+      - grafana-storage:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_INSTALL_PLUGINS=
+    restart: unless-stopped
+    networks:
+      - grafana-network
+
+volumes:
+  grafana-storage:
+    driver: local
+
+networks:
+  grafana-network:
+    driver: bridge
